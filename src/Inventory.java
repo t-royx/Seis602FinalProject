@@ -52,6 +52,38 @@ public class Inventory {
 	 * Parameters:
 	 * Returns:
 	 */
+	public void incrementItemStock(Item item)
+	{
+		int index = items.indexOf(item);
+		//Delete the item if it already exist
+		if(index > 0)
+		{
+			items.get(index).setStock(items.get(index).getStock() + 1);
+		}
+	}
+	
+	/*
+	 * Name:
+	 * Description:
+	 * Parameters:
+	 * Returns:
+	 */
+	public void decrementItemStock(Item item)
+	{
+		int index = items.indexOf(item);
+		//Delete the item if it already exist
+		if(index > 0)
+		{
+			items.get(index).setStock(items.get(index).getStock() - 1);
+		}
+	}
+	
+	/*
+	 * Name:
+	 * Description:
+	 * Parameters:
+	 * Returns:
+	 */
 	public int getSize() {
 		return this.items.size();
 	}

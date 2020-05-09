@@ -25,7 +25,7 @@ public class Register {
 		//validate employee is logged in 
 		if((this.employee != null) && (this.currentTransaction == null))
 		{
-			saleMode = true;
+			this.saleMode = true;
 			retVal = true;
 		}
 		return retVal;
@@ -36,10 +36,14 @@ public class Register {
 		//validate employee is logged in 
 		if((employee != null) && (this.currentTransaction == null))
 		{
-			saleMode = false;
+			this.saleMode = false;
 			retVal = true;
 		}
 		return retVal;
+	}
+	
+	public boolean getMode() {
+		return this.saleMode;
 	}
 	
 	//At this point it is assumed the item scanned is valid
@@ -68,12 +72,20 @@ public class Register {
 		return retVal;
 	}
 	
-	public boolean completeTransaction() {
-		boolean retVal = false;
+	/*
+	 * Function Name: completeTransaction
+	 * Parameters: None
+	 * Returns: - Completed transaction or error occurred
+	 */
+	public Transaction completeTransaction() {
+		Transaction retVal = null;
 		//validate employee is logged in 
 		if((employee != null) && (this.currentTransaction != null))
 		{
-			retVal = this.transactions.add(this.currentTransaction);
+			if(this.transactions.add(this.currentTransaction))
+			{
+				retVal = this.currentTransaction;
+			}
 			this.currentTransaction = null;
 		}
 		return retVal;
@@ -84,7 +96,8 @@ public class Register {
 		//validate employee is logged in 
 		if((employee != null) && (this.currentTransaction == null))
 		{
-			//validate the 
+			//validate the return already exist 
+			
 		}
 		return retVal;
 	}
@@ -124,6 +137,8 @@ public class Register {
 	}
 	
 	public void clearEmployee() {
+		this.transactions.clear();
+		this.currentTransaction = null;
 		this.employee = null;
 	}
 	
