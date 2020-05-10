@@ -1,4 +1,3 @@
-import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class Register {
@@ -8,10 +7,22 @@ public class Register {
 	private Transaction currentTransaction;
 	private Boolean saleMode;
 	
+	/*
+	 * Name: Register
+	 * Description: Default register constructor, calls our customized constructor
+	 * Parameters: None
+	 * Returns: None
+	 */
 	public Register() {
 		this(0);
 	}
 	
+	/*
+	 * Name: Register
+	 * Description: Customized constructor that assigns a register ID to the register object
+	 * Parameters: registerID
+	 * Returns: None
+	 */
 	public Register(int registerID) {
 		this.ID = registerID;
 		this.employee = null;
@@ -20,6 +31,12 @@ public class Register {
 		this.saleMode = true;
 	}
 	
+	/*
+	 * Name: setSaleMode
+	 * Description: Sets the register into 'Sale' mode if an employee is logged on and there isn't an open transaction
+	 * Parameters: None
+	 * Returns: None
+	 */
 	public boolean setSaleMode() {
 		boolean retVal = false;
 		//validate employee is logged in 
@@ -31,6 +48,12 @@ public class Register {
 		return retVal;
 	}
 	
+	/*
+	 * Name: setReturnMode
+	 * Description: Sets the register into 'Return' mode if an employee is logged on and there isn't an open transaction
+	 * Parameters: None
+	 * Returns: None
+	 */
 	public boolean setReturnMode() {
 		boolean retVal = false;
 		//validate employee is logged in 
@@ -42,10 +65,22 @@ public class Register {
 		return retVal;
 	}
 	
+	/*
+	 * Name: getMode
+	 * Description: Return current register mode
+	 * Parameters: None
+	 * Returns: True - Sale Mode, False - Return Mode
+	 */
 	public boolean getMode() {
 		return this.saleMode;
 	}
 	
+	/*
+	 * Name: scanItem
+	 * Description: Return current register mode
+	 * Parameters: scannedItem
+	 * Returns: True - item added to transaction, False - failure to add item
+	 */
 	//At this point it is assumed the item scanned is valid
 	public boolean scanItem(Item scannedItem) {
 		boolean retVal = false;
@@ -73,7 +108,18 @@ public class Register {
 	}
 	
 	/*
+	 * Function Name: cancelTransaction
+	 * Description: Clears all items added to the current sale/return transaction
+	 * Parameters: None
+	 * Returns: None
+	 */
+	public void cancelTransaction() {
+		this.currentTransaction = null;
+	}
+	
+	/*
 	 * Function Name: completeTransaction
+	 * Description: Closes the current transaction and adds it the list of completed transactions
 	 * Parameters: None
 	 * Returns: - Completed transaction or error occurred
 	 */
@@ -91,17 +137,12 @@ public class Register {
 		return retVal;
 	}
 	
-	public boolean transactionReturn() {
-		boolean retVal = false;
-		//validate employee is logged in 
-		if((employee != null) && (this.currentTransaction == null))
-		{
-			//validate the return already exist 
-			
-		}
-		return retVal;
-	}
-	
+	/*
+	 * Function Name: printCurrentTransaction
+	 * Description: Prints each item in the currently open transaction
+	 * Parameters: None
+	 * Returns: None
+	 */
 	public void printCurrentTransaction() {
 		System.out.println("Current Transaction:");
 		if(this.currentTransaction != null) {
@@ -111,37 +152,60 @@ public class Register {
 		}
 	}
 	
+	/*
+	 * Function Name: printAllTransactions
+	 * Description: Prints all transactions that have occured since the employee has logged on
+	 * Parameters: None
+	 * Returns: None
+	 */
 	public void printAllTransactions() {
-		//To simplify print function
-		String itemName;
-		BigDecimal itemPrice;
-		
-		//For each transaction
+		//Print cashier
+		System.out.println("Employee ID: " + this.employee.getEmployeeID());
+		System.out.println("Employee Username: " + this.employee.getEmployeeUsername());
+		System.out.println("Register ID: " + this.ID);
+		//Blank line to help separate transactions on console
+		System.out.println(" ");
+		//Step through each transaction and execute its print function
 		if(this.transactions.size() > 0) {
 			for(int i = 0; this.transactions.size() > i; i++) {
-				//Iterate through each item in the current transaction
 				System.out.println("Transaction Number: " + i);
-				for(int j = 0; this.transactions.get(i).getSize() > j; j++) {
-					itemName = this.transactions.get(i).items.get(j).getName();
-					itemPrice = this.transactions.get(i).items.get(j).getPrice();
-					System.out.println(itemName + "...$" + itemPrice);
-				}
+				this.transactions.get(i).print();
+				//Blank line to help separate transactions on console
+				System.out.println(" ");
 			}
 		}
 	}
 	
+	/*
+	 * Function Name: setEmployee
+	 * Description: Logs an employee onto the register object
+	 * Parameters: setEmployee - Employee object for employee being logged on
+	 * Returns: None
+	 */
 	public void setEmployee(Employee setEmployee) {
 		this.employee = setEmployee;
 		this.transactions.clear();
 		this.currentTransaction = null;
 	}
 	
+	/*
+	 * Function Name: clearEmployee
+	 * Description: Clears logged on employee and all transactions that occurred when that employee was logged on
+	 * Parameters: None
+	 * Returns: None
+	 */
 	public void clearEmployee() {
 		this.transactions.clear();
 		this.currentTransaction = null;
 		this.employee = null;
 	}
 	
+	/*
+	 * Function Name: getEmployee
+	 * Description: Returns the current logged on employee object
+	 * Parameters: None
+	 * Returns: this.employee or null if no employee logged on
+	 */
 	public Employee getEmployee() {
 		return this.employee;
 	}

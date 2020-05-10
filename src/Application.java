@@ -80,7 +80,7 @@ public class Application {
 					//Collect login credentials
 					System.out.println("Enter Username:");
 					username = userUsernameScanner.nextLine();
-					System.out.println("Enter Username:");
+					System.out.println("Enter Password:");
 					password = userPasswordScanner.nextLine();
 					
 					//Use credentials to log employee in
@@ -127,7 +127,7 @@ public class Application {
 				
 				//Enters return mode
 				case "SetReturnMode":
-				case "setreturnMode":
+				case "setreturnmode":
 				{
 					//Try to set the store into return mode and tell the user the status
 					if(true == store.setReturnMode()){
@@ -174,19 +174,43 @@ public class Application {
 				}
 				break;
 				
+				case "CancelTransaction":
+				case "canceltransaction":
+				{
+					store.cancelTransaction();
+				}
+				break;
+				
 				case "CompleteTransactio":
 				case "completetransaction":
 				{
 					lastTransaction = store.completeTransaction();
+					if(lastTransaction == null) {
+						//Last transaction was successfully completed
+						System.out.println("No transaction started...");
+					}else {
+						//Last transaction was successfully completed
+						System.out.println("Transaction completed...");
+					}
 				}
 				break;
 				
 				case "ReturnLastTransaction":
 				case "returnlasttransaction":
 				{
-					store.returnTransaction(lastTransaction);
-					//clear last transaction so it can't be returned 2x
-					lastTransaction = null;
+					//Verify there is a previous transaction
+					if(lastTransaction != null) {
+						if(store.returnTransaction(lastTransaction)) {
+							System.out.println("Transaction successfully returned");
+						}else {
+							System.out.println("Error returning transaction");
+						}
+						//clear last transaction so it can't be returned 2x
+						lastTransaction = null;	
+					}else {
+						//There was no previous transaction
+						System.out.println("Error - No previous transaction to return");
+					}
 				}
 				break;
 				

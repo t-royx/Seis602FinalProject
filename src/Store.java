@@ -1,7 +1,6 @@
 
 import java.util.ArrayList;
 
-
 public class Store {
 	//Store objects
 	private Inventory inventory = new Inventory();
@@ -229,6 +228,17 @@ public class Store {
 	}
 	
 	/*
+	 * Name: cancelTransaction
+	 * Description: Cancels the current transaction for the current selected register
+	 * Parameters: None
+	 * Returns: None
+	 */
+	public void cancelTransaction() {
+		//Cancel the transaction
+		register[registerSelected].cancelTransaction();
+	}
+	
+	/*
 	 * Name: completeTransaction
 	 * Description: Completes a transaction for the current selected register
 	 * Parameters: None
@@ -264,14 +274,20 @@ public class Store {
 	 * Returns: true - transaction returned successfully, false - error while returning the transaction
 	 */
 	public boolean returnTransaction(Transaction transaction) {
-		//TODO
-		//Declare return value and initialize to false until transaction is successfully returned
-		//Verify there isn't a transaction currently open
-		//Set return mode for selected register
-		//Run a for-loop and call 'this.scanItem()' for each item in the transaction
-		//After all items have been added then call 'this.completeTransaction()' so the inventory is updated
-		//Update return value to true if all other steps are successful
-		return false;
+		boolean retVal = false;
+		
+		//Verify there isn't a transaction currently open by switching register mode to return
+		if(register[registerSelected].setReturnMode()) {
+			//Return each item in the transaction
+			for(int i = 0; i < transaction.getSize(); i++) {
+				this.scanItem(transaction.items.get(i));
+			}
+			//Complete the return transaction
+			this.completeTransaction();
+			//Tell the system that the return was successful
+			retVal = true;
+		}
+		return retVal;
 	}
 	
 	/*
