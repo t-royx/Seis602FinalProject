@@ -14,10 +14,10 @@ public class Inventory {
 	}
 	
 	/*
-	 * Name:
-	 * Description:
-	 * Parameters:
-	 * Returns:
+	 * Name: createItem
+	 * Description: Creates an item in inventory
+	 * Parameters: newItem
+	 * Returns: true - item created, false - item already exist
 	 */
 	public boolean createItem(Item newItem)
 	{
@@ -32,10 +32,10 @@ public class Inventory {
 	}
 	
 	/*
-	 * Name:
-	 * Description:
-	 * Parameters:
-	 * Returns:
+	 * Name: deleteItem
+	 * Description: Deletes an item from the inventory
+	 * Parameters: item
+	 * Returns: None
 	 */
 	public void deleteItem(Item item)
 	{
@@ -47,26 +47,26 @@ public class Inventory {
 	}
 	
 	/*
-	 * Name:
-	 * Description:
-	 * Parameters:
-	 * Returns:
+	 * Name: incrementItemStock
+	 * Description: Increments stock for specified  inventory item
+	 * Parameters: item
+	 * Returns: None
 	 */
 	public void incrementItemStock(Item item)
 	{
 		int index = items.indexOf(item);
 		//Delete the item if it already exist
-		if(index > 0)
+		if(index > -1)
 		{
 			items.get(index).setStock(items.get(index).getStock() + 1);
 		}
 	}
 	
 	/*
-	 * Name:
-	 * Description:
-	 * Parameters:
-	 * Returns:
+	 * Name: decrementItemStock
+	 * Description: Decrements stock for specified  inventory item
+	 * Parameters: item
+	 * Returns: None
 	 */
 	public void decrementItemStock(Item item)
 	{
@@ -79,20 +79,20 @@ public class Inventory {
 	}
 	
 	/*
-	 * Name:
-	 * Description:
-	 * Parameters:
-	 * Returns:
+	 * Name: getSize
+	 * Description: Returns inventory size
+	 * Parameters: None
+	 * Returns: this.items.size()
 	 */
 	public int getSize() {
 		return this.items.size();
 	}
 	
 	/*
-	 * Name:
-	 * Description:
-	 * Parameters:
-	 * Returns:
+	 * Name: print
+	 * Description: Prints entire inventory
+	 * Parameters: None
+	 * Returns: None
 	 */
 	public void print() {
 		Item temp;
@@ -114,10 +114,10 @@ public class Inventory {
 	}
 	
 	/*
-	 * Name:
-	 * Description:
-	 * Parameters:
-	 * Returns:
+	 * Name: doesItemExist
+	 * Description: Checks if an item exist in the inventory
+	 * Parameters: item
+	 * Returns: true/false
 	 */
 	public boolean doesItemExist(Item item)
 	{
@@ -126,26 +126,5 @@ public class Inventory {
 		}else {
 			return false;
 		}
-	}
-	
-	/*
-	 * Name:
-	 * Description:
-	 * Parameters:
-	 * Returns:
-	 */
-	public Item getItem()
-	{
-		return null;
-	}
-	
-	/*
-	 * Name:
-	 * Description:
-	 * Parameters:
-	 * Returns:
-	 */
-	public void setItem() {
-		
 	}
 }

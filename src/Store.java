@@ -271,10 +271,10 @@ public class Store {
 	 * Name: returnTransaction
 	 * Description: Returns all items from a specified transaction
 	 * Parameters: transaction - transaction object in which to return all items should be returned
-	 * Returns: true - transaction returned successfully, false - error while returning the transaction
+	 * Returns: return transaction
 	 */
-	public boolean returnTransaction(Transaction transaction) {
-		boolean retVal = false;
+	public Transaction returnTransaction(Transaction transaction) {
+		Transaction returnTransaction = null;
 		
 		//Verify there isn't a transaction currently open by switching register mode to return
 		if(register[registerSelected].setReturnMode()) {
@@ -283,11 +283,9 @@ public class Store {
 				this.scanItem(transaction.items.get(i));
 			}
 			//Complete the return transaction
-			this.completeTransaction();
-			//Tell the system that the return was successful
-			retVal = true;
+			returnTransaction = this.completeTransaction();
 		}
-		return retVal;
+		return returnTransaction;
 	}
 	
 	/*

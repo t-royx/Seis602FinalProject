@@ -1,3 +1,4 @@
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class Register {
@@ -35,7 +36,7 @@ public class Register {
 	 * Name: setSaleMode
 	 * Description: Sets the register into 'Sale' mode if an employee is logged on and there isn't an open transaction
 	 * Parameters: None
-	 * Returns: None
+	 * Returns: true - sale mode set, false - employee not logged on or transaction in progress
 	 */
 	public boolean setSaleMode() {
 		boolean retVal = false;
@@ -52,7 +53,7 @@ public class Register {
 	 * Name: setReturnMode
 	 * Description: Sets the register into 'Return' mode if an employee is logged on and there isn't an open transaction
 	 * Parameters: None
-	 * Returns: None
+	 * Returns: true - return mode set, false - employee not logged on or transaction in progress
 	 */
 	public boolean setReturnMode() {
 		boolean retVal = false;
@@ -159,8 +160,15 @@ public class Register {
 	 * Returns: None
 	 */
 	public void printAllTransactions() {
+		BigDecimal totalSaleAmount = new BigDecimal(0);
+		BigDecimal totalReturnAmount = new BigDecimal(0);
+		BigDecimal totalNet = new BigDecimal(0);
+		int itemsReturned = 0;
+		int itemsSold = 0;
+		int transactionReturns = 0;
+		int transactionSales = 0;
+		
 		//Print cashier
-		System.out.println("Employee ID: " + this.employee.getEmployeeID());
 		System.out.println("Employee Username: " + this.employee.getEmployeeUsername());
 		System.out.println("Register ID: " + this.ID);
 		//Blank line to help separate transactions on console
@@ -170,9 +178,30 @@ public class Register {
 			for(int i = 0; this.transactions.size() > i; i++) {
 				System.out.println("Transaction Number: " + i);
 				this.transactions.get(i).print();
+				if(this.transactions.get(i).saleTransaction) {
+					totalSaleAmount = totalSaleAmount.add(this.transactions.get(i).getTotalAmount());
+					itemsSold += this.transactions.get(i).getSize();
+					transactionSales++;
+				}else {
+					totalReturnAmount = totalReturnAmount.add(this.transactions.get(i).getTotalAmount());
+					itemsReturned += this.transactions.get(i).getSize();
+					transactionReturns++;
+				}
 				//Blank line to help separate transactions on console
 				System.out.println(" ");
 			}
+			
+			//Print totals from each transaction
+			System.out.println("Total Number of Transactions: " + this.transactions.size());
+			System.out.println("Total Sale Transactions: " + transactionSales);
+			System.out.println("Total Return Transactions: " + transactionReturns);
+			System.out.println("Net Total: $" + totalSaleAmount.subtract(totalReturnAmount));
+			System.out.println("Total Sales Amount: $" + totalSaleAmount);
+			System.out.println("Total Returns Amount: $" + totalReturnAmount);
+			System.out.println("Total Items Sold: " + itemsSold);
+			System.out.println("Total Items Returned: " + itemsReturned);
+			System.out.println("-------------------------------");
+			System.out.println(" ");
 		}
 	}
 	

@@ -200,13 +200,19 @@ public class Application {
 				{
 					//Verify there is a previous transaction
 					if(lastTransaction != null) {
-						if(store.returnTransaction(lastTransaction)) {
-							System.out.println("Transaction successfully returned");
+						//Validate last transaction was a sale
+						if(lastTransaction.saleTransaction) {
+							//Return the transaction and print the status
+							lastTransaction = store.returnTransaction(lastTransaction);
+							if(lastTransaction != null) {
+								System.out.println("Transaction successfully returned");
+							}else {
+								System.out.println("Error returning transaction");
+							}
 						}else {
-							System.out.println("Error returning transaction");
+							//Last transaction was a refund 
+							System.out.println("Last transaction was a return, can't return a return");
 						}
-						//clear last transaction so it can't be returned 2x
-						lastTransaction = null;	
 					}else {
 						//There was no previous transaction
 						System.out.println("Error - No previous transaction to return");

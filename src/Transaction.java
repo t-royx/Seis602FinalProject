@@ -58,40 +58,26 @@ public class Transaction {
 	}
 	
 	/*
+	 * Function Name: totalAmount
+	 * Description: Returns total amount for sale/return transaction
+	 * Parameters: None
+	 * Returns: totalAmount
+	 */
+	public BigDecimal getTotalAmount() {
+		BigDecimal totalAmount = new BigDecimal(0);
+		for(int i = 0; i < this.getSize(); i++) {
+			totalAmount = totalAmount.add(this.items.get(i).getPrice());
+		}
+		return totalAmount;
+	}
+	
+	/*
 	 * Function Name: print
 	 * Description: Prints the transaction to the console
 	 * Parameters: None
 	 * Returns: None
 	 */
 	public void print() {
-		//To simplify print function
-		String itemName;
-		BigDecimal itemPrice;
-		BigDecimal totalPrice = new BigDecimal(0);
 		
-		//Print transaction date and time
-		System.out.println("Transaction Date:" + Date_of_Opening);
-		System.out.println("Transaction Time:" + Time_of_Opening);
-		//Print if transaction type is sale or return
-		if(saleTransaction) {
-			//Transaction is a sale
-			System.out.println("Transaction Type: Sale");
-		}else {
-			//Transaction is a return
-			System.out.println("Transaction Type: Return");
-		}
-		//Iterate through each item in the current transaction
-		for(int i = 0; this.getSize() > i; i++) {
-			itemName = this.items.get(i).getName();
-			itemPrice = this.items.get(i).getPrice();
-			totalPrice = totalPrice.add(itemPrice);
-			System.out.println(itemName + "...$" + itemPrice);
-		}
-		System.out.println("Total Items: " + this.getSize());
-		if(saleTransaction) {
-			System.out.println("Total Sale: $" + totalPrice);
-		}else {
-			System.out.println("Total Refund: $" + totalPrice);
-		}
 	}
 }
